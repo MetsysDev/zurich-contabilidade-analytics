@@ -1,0 +1,83 @@
+:root {
+    --danger-color: #f44336;
+    --border-width-template: 5px;
+    --border-color-template:#005e66;
+}
+
+html {
+    padding: 20px;
+}
+
+#view-card {
+    display: flex;
+    justify-content: center;
+}
+
+.template-container {
+    margin: 5px;
+    width: fit-content;
+    height: auto;
+    min-height: 550px;
+    border: solid var(--border-width-template) var(--border-color-template);
+}
+
+.template-container .template-header img {
+    /* width: 611px; */
+    width: 469px;
+    height: 157px;
+}
+
+.template-container .template-header {
+    text-align: center;
+    border-bottom: solid var(--border-width-template) var(--border-color-template);
+}
+
+.template-container 
+.template-body .grid-template-areas-company, .grid-template-areas-business {
+    padding: 0 5px;
+}
+
+.template-container .template-body div {
+    display: grid;
+}
+
+.template-container .template-body .description-company {
+    grid-area: description-company;
+}
+
+.template-container .template-body .cnpj {
+    grid-area: cnpj;
+}
+
+.template-container .template-body .emission-date {
+    grid-area: emission-date;
+}
+
+.template-container .template-body .grid-template-areas-company {
+    border-bottom: solid 5px #005e66;
+    grid-template-areas:
+        "description-company description-company"
+        "cnpj emission-date"
+    ;
+}
+
+.template-container .template-body .grid-template-areas-business {
+    grid-template-columns: 1fr 1fr;
+}
+
+.th-inner.loading, .no-records-found.loading {
+    color: transparent;
+    background:#f6f7f8;
+	background-image: -webkit-linear-gradient(left, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+	background-size: 800px 100px;
+	-webkit-animation: 1.5s forwards infinite loaderFx linear;
+}
+
+@-webkit-keyframes loaderFx{
+	0%{
+		background-position:-460px 0
+	}
+	100%{
+		background-position:460px 0
+	}
+}
