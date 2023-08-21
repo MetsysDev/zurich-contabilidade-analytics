@@ -18,12 +18,35 @@ class CardTemplate {
                     <img src="logo_zurich.jpg" alt="logo-zurich-contabil">
                 </div>
                 <div class="template-body">
+                    <div class="grid-template-areas-title-report">
+                        <span>Análise empresarial</span>
+                    </div>
                     <div class="grid-template-areas-company">
-                        <span class="emission-date" hidden>Análise gerada em: ${emitionDate}</span>
+                        <span class="description-company">Cliente: ${dataCard.cliente}</span>
+                        <span class="cnpj">CNPJ: ${dataCard.cnpj}</span>
+                    </div>
+                    <div class="grid-template-areas-graphics">
                         <canvas id="myChart" alt="grafico-zurich-contabil"></canvas>
+                        <table>
+                            <tr>
+                                <th></th>
+                                <th>Folha</th>
+                                <th>Compras</th>
+                                <th>Faturamento</th>
+                            </tr>
+                            <tr>
+                                <td>Total:</td>
+                                <td>${dataCard.total_payroll.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td>
+                                <td>${dataCard.total_shopping.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td>
+                                <td>${dataCard.total_billing.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td>
+                            </tr>
+                        </table>
                     </div>
                     <div class="grid-template-areas-business">
-                        ${dataCard.analysis}
+                        <span>Diagnóstico:</span>
+                        <ul>
+                            ${dataCard.analysis}
+                        </ul>
                     </div>
                 </div>
 
@@ -74,6 +97,9 @@ class CardTemplate {
         let totalBilling = 0;
         let totalShopping = 0;
         let clientName = '';
+        let cnpj = '';
+        let haveTaxDebit = false;
+        let haveLaborDebts = false;
 
 
         for (const tableKey in tableData) {
@@ -95,21 +121,30 @@ class CardTemplate {
 
                 if (key.toLocaleLowerCase() == 'total de folha') {
                     totalPayroll = this.__formatValue(table[key]);
-                    
                 }
 
                 if (key.toLocaleLowerCase() == 'total de compras') {
                     totalShopping = this.__formatValue(table[key]);
-                    
                 }
 
                 if (key.toLocaleLowerCase() == 'total de faturamento') {
                     totalBilling = this.__formatValue(table[key]);
-                    
+                }
+
+                if (key.toLocaleLowerCase() == 'debitos trabalhistas') {
+                    haveLaborDebts = (table[key].toLocaleLowerCase() == 'sim');
+                }
+
+                if (key.toLocaleLowerCase() == 'debitos fiscais') {
+                    haveTaxDebit = (table[key].toLocaleLowerCase() == 'sim');
                 }
 
                 if (this.isClient(key)) {
                     clientName = table[key];
+                }
+
+                if (this.isCnpj(key)) {
+                    cnpj = table[key];
                 }
 
                 if (this.isTypeCompany(key)) {
@@ -145,6 +180,14 @@ class CardTemplate {
                 }
             }
 
+            if (haveLaborDebts) {
+                analysis.push('VOCÊ POSSUI DEBITOS TRABALHISTAS');
+            }
+
+            if (haveTaxDebit) {
+                analysis.push('VOCÊ POSSUI DEBITOS FISCAIS');
+            }
+
             dataGraphics.push({
                 'label': this.nameTable(tableKey),
                 'data': valuesGraphics.reverse()
@@ -158,8 +201,12 @@ class CardTemplate {
         analysis = analysis.map((value) => `<li>${value}</li>`);
 
         let spans = {
+            'cnpj': cnpj,
             'cliente': clientName,
             'analysis': analysis.join(''),
+            'total_billing': totalBilling,
+            'total_payroll': totalPayroll,
+            'total_shopping': totalShopping,
             'graphics': {
                 'labels': labelsGraphics.reverse(),
                 'datasets': dataGraphics
@@ -193,6 +240,11 @@ class CardTemplate {
     isClient(key) {
         key = key.toLocaleLowerCase();
         return key == 'clientes' || key == 'cliente';
+    }
+
+    isCnpj(key) {
+        key = key.toLocaleLowerCase();
+        return key == 'cnpj';
     }
 
     isTypeCompany(key) {
@@ -245,12 +297,8 @@ class CardTemplate {
             }
 
             .template-container 
-            .template-body .grid-template-areas-company, .grid-template-areas-business {
+            .template-body .grid-template-areas-company, .grid-template-areas-business, .grid-template-areas-title-report, .grid-template-areas-graphics {
                 padding: 0 5px;
-            }
-
-            .template-container .template-body div {
-                display: block;
             }
 
             .template-container .template-body img {
@@ -271,7 +319,6 @@ class CardTemplate {
             }
 
             .template-container .template-body .grid-template-areas-company {
-                border-bottom: solid 5px #005e66;
                 grid-template-areas:
                     "description-company description-company"
                     "cnpj emission-date"
@@ -280,6 +327,18 @@ class CardTemplate {
 
             .template-container .template-body .grid-template-areas-business {
                 grid-template-columns: 1fr 1fr;
+            }
+
+            .grid-template-areas-company, .grid-template-areas-title-report, .grid-template-areas-graphics {
+                border-bottom: solid 5px #005e66;
+            }
+
+            .grid-template-areas-business {
+                display: block !important;
+            }
+
+            .grid-template-areas-title-report span {
+                grid-column-start: 2;
             }
         </style>
         `;

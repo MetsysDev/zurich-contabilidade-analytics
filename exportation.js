@@ -2,11 +2,11 @@ class ExportationReport {
     static pdf(valueHtml, data) {
         let fileName = ExportationReport.__generateFileName(data);
         let opt = {
-            margin:       [0, 1.5],
+            margin:       [0, 0.2],
             filename:     `${fileName}.pdf`,
             image:        { type: 'jpeg', quality: 0.98 },
             html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait', pageSize: 'A4' }
         };
 
         ExportationReport.visualization(valueHtml);
