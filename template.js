@@ -15,12 +15,10 @@ class CardTemplate {
             ${style}
             <div class="template-container">
                 <div class="template-header">
+                    <span class="title-report">Análise empresarial</span>
                     <img src="logo_zurich.jpg" alt="logo-zurich-contabil">
                 </div>
                 <div class="template-body">
-                    <div class="grid-template-areas-title-report">
-                        <span>Análise empresarial</span>
-                    </div>
                     <div class="grid-template-areas-company">
                         <span class="description-company">Cliente: ${dataCard.cliente}</span>
                         <span class="cnpj">CNPJ: ${dataCard.cnpj}</span>
@@ -30,15 +28,15 @@ class CardTemplate {
                         <table>
                             <tr>
                                 <th></th>
+                                <th>Faturamento</th>
                                 <th>Folha</th>
                                 <th>Compras</th>
-                                <th>Faturamento</th>
                             </tr>
                             <tr>
                                 <td>Total:</td>
+                                <td>${dataCard.total_billing.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td>
                                 <td>${dataCard.total_payroll.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td>
                                 <td>${dataCard.total_shopping.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td>
-                                <td>${dataCard.total_billing.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</td>
                             </tr>
                         </table>
                     </div>
@@ -47,6 +45,12 @@ class CardTemplate {
                         <ul>
                             ${dataCard.analysis}
                         </ul>
+                    </div>
+                    <div class="grid-template-areas-observation">
+                        <p class="report-observation">
+                           Observação: Caso conste débitos fiscais ou trabalhistas, pedimos para contatar o escritório para maiores informações.
+                           Esta consulta esta sujeita a alterações.
+                        </p>
                     </div>
                 </div>
 
@@ -180,14 +184,6 @@ class CardTemplate {
                 }
             }
 
-            if (haveLaborDebts) {
-                analysis.push('VOCÊ POSSUI DEBITOS TRABALHISTAS');
-            }
-
-            if (haveTaxDebit) {
-                analysis.push('VOCÊ POSSUI DEBITOS FISCAIS');
-            }
-
             dataGraphics.push({
                 'label': this.nameTable(tableKey),
                 'data': valuesGraphics.reverse()
@@ -196,6 +192,14 @@ class CardTemplate {
 
         if (totalBilling < (totalPayroll + totalShopping)) {
             analysis.push('SUA EMPRESA ESTÁ COM PROBLEMAS DE CAIXA, AS RECEITAS PRECISAM AUMENTAR');
+        }
+
+        if (haveLaborDebts) {
+            analysis.push('VOCÊ POSSUI DEBITOS TRABALHISTAS');
+        }
+
+        if (haveTaxDebit) {
+            analysis.push('VOCÊ POSSUI DEBITOS FISCAIS');
         }
 
         analysis = analysis.map((value) => `<li>${value}</li>`);
@@ -285,9 +289,25 @@ class CardTemplate {
                 border: solid var(--border-width-template) var(--border-color-template);
             }
 
+            .template-header {
+                position: relative;
+            }
+
             .template-container .template-header img {
                 width: 469px;
                 height: 157px;
+            }
+
+            .template-container .template-header .title-report {
+                position: absolute;
+                left: 31%;
+                font-size: 1.9rem;
+                color: white;
+                font-weight: bold;
+            }
+
+            .report-observation {
+                font-weight: bold;
             }
 
             .template-container .template-header {
@@ -329,7 +349,7 @@ class CardTemplate {
                 grid-template-columns: 1fr 1fr;
             }
 
-            .grid-template-areas-company, .grid-template-areas-title-report, .grid-template-areas-graphics {
+            .grid-template-areas-company, .grid-template-areas-title-report, .grid-template-areas-graphics, .grid-template-areas-business {
                 border-bottom: solid 5px #005e66;
             }
 

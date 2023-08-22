@@ -56,8 +56,7 @@ $(function (event) {
         let table = tablesGenerated[nameTable];
         let data = table.getSelections();
         if (!validArray(data)) {
-            Mensagen.error('Selcione uma linha para exportar!');
-            return;
+            data = table.getAll();
         }
 
         if (!validArray(data)) {
@@ -65,13 +64,15 @@ $(function (event) {
             return;
         }
 
-        data = getDataToGenerateReport(data);
-
-        $('.view-card').empty();
-        let card = new CardTemplate('myChartToExport');
-        let cardMonted = card.mount(data);
-        data = card.mountDataCard(data);
-        ExportationReport.pdf(cardMonted, data);
+        data.forEach((row) => {
+            row = getDataToGenerateReport(row);
+    
+            $('.view-card').empty();
+            let card = new CardTemplate('myChartToExport');
+            let cardMonted = card.mount(row);
+            row = card.mountDataCard(row);
+            ExportationReport.pdf(cardMonted, row);
+        })
     });
 
     $('.button-visualization').on('click', function (ev) {
@@ -89,7 +90,7 @@ $(function (event) {
             return;
         }
 
-        data = getDataToGenerateReport(data);
+        data = getDataToGenerateReport(data[0]);
 
         $('#visualization-exportation').modal('show');
         let card = new CardTemplate();
@@ -140,7 +141,7 @@ $(function (event) {
 
     function getDataToGenerateReport(data) {
         let results = {};
-        let id = data[0]['COD'];
+        let id = data['COD'];
 
         for (const key in tablesGenerated) {
             if (Object.hasOwnProperty.call(tablesGenerated, key)) {
