@@ -163,23 +163,23 @@ class CardTemplate {
             }
 
             if (tableKey == 'table_payroll' && valuesGraphics.length > 1) {
-                if (valuesGraphics[0] >= valuesGraphics[1]) {
+                if (valuesGraphics[0] > valuesGraphics[1]) {
                     analysis.push('SEUS CUSTOS DE FOLHA AUMENTARAM, FIQUE DE OLHO');
-                } else {
+                } else if (valuesGraphics[0] < valuesGraphics[1]) {
                     analysis.push('SEUS CUSTOS DE FOLHA DIMINUIRAM, CORTAR CUSTOS É UMA BOA ESTRATÉGIA');
                 }
             }
 
             if (tableKey == 'table_shopping' && valuesGraphics.length > 1) {
-                if (valuesGraphics[0] >= valuesGraphics[1]) {
+                if (valuesGraphics[0] > valuesGraphics[1]) {
                     analysis.push('SUAS COMPRAS AUMENTRAM ESTE MÊS, GERENCIAR ESTOQUES É ESSENCIAL PARA GERAR CAIXA');
                 }
             }
             
             if (tableKey == 'table_billing' && valuesGraphics.length > 1) {
-                if (valuesGraphics[0] >= valuesGraphics[1]) {
+                if (valuesGraphics[0] > valuesGraphics[1]) {
                     analysis.push('SUAS RECEITAS ESTÃO AUMENTANDO, PARABÉNS CONTINUE CRESCENDO');
-                } else {
+                } else if (valuesGraphics[0] < valuesGraphics[1]) {
                     analysis.push('SUAS RECEITAS CAIRAM REFERENTE AO MÊS PASSADO, FIQUE ATENTO');
                 }
             }
