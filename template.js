@@ -196,10 +196,14 @@ class CardTemplate {
 
         if (haveLaborDebts) {
             analysis.push('VOCÊ POSSUI DEBITOS TRABALHISTAS');
+        } else {
+            analysis.push('VOCÊ NÃO POSSUI DEBITOS TRABALHISTAS');
         }
 
         if (haveTaxDebit) {
             analysis.push('VOCÊ POSSUI DEBITOS FISCAIS');
+        } else {
+            analysis.push('VOCÊ NÃO POSSUI DEBITOS FISCAIS');
         }
 
         analysis = analysis.map((value) => `<li>${value}</li>`);
