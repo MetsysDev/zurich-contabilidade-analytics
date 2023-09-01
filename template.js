@@ -225,7 +225,7 @@ class CardTemplate {
     }
 
     __formatValue(value) {
-        return parseFloat(value.replace('R$', '').replace(' ', '').replace(',', ''));
+        return parseFloat(value.replaceAll('R$', '').replaceAll(' ', '').replaceAll(',', ''));
     }
 
     nameTable(key) {
