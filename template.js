@@ -15,7 +15,6 @@ class CardTemplate {
             ${style}
             <div class="template-container">
                 <div class="template-header">
-                    <span class="title-report">Análise empresarial</span>
                     <img src="logo_zurich.jpg" alt="logo-zurich-contabil">
                 </div>
                 <div class="template-body">

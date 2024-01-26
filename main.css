@@ -22,9 +22,8 @@ html {
 }
 
 .template-container .template-header img {
-    /* width: 611px; */
-    width: 469px;
-    height: 157px;
+    width: 44rem;
+    height: 9rem;
 }
 
 .template-container .template-header {
