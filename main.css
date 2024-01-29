@@ -80,3 +80,8 @@ html {
 		background-position:460px 0
 	}
 }
+
+.text-success-message, .text-danger-message {
+    padding: 0;
+    margin: 0;
+}

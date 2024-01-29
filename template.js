@@ -163,23 +163,32 @@ class CardTemplate {
 
             if (tableKey == 'table_payroll' && valuesGraphics.length > 1) {
                 if (valuesGraphics[0] > valuesGraphics[1]) {
-                    analysis.push('SEUS CUSTOS DE FOLHA AUMENTARAM, FIQUE DE OLHO');
+                    analysis.push(
+                        this.textBadStatus('SEUS CUSTOS DE FOLHA AUMENTARAM, FIQUE DE OLHO')
+                    );
                 } else if (valuesGraphics[0] < valuesGraphics[1]) {
-                    analysis.push('SEUS CUSTOS DE FOLHA DIMINUIRAM, CORTAR CUSTOS É UMA BOA ESTRATÉGIA');
+                    analysis.push(
+                        this.textGoodStatus('SEUS CUSTOS DE FOLHA DIMINUIRAM, CORTAR CUSTOS É UMA BOA ESTRATÉGIA')
+                    );
                 }
             }
 
             if (tableKey == 'table_shopping' && valuesGraphics.length > 1) {
                 if (valuesGraphics[0] > valuesGraphics[1]) {
-                    analysis.push('SUAS COMPRAS AUMENTRAM ESTE MÊS, GERENCIAR ESTOQUES É ESSENCIAL PARA GERAR CAIXA');
+                    analysis.push(
+                        'SUAS COMPRAS AUMENTRAM ESTE MÊS, GERENCIAR ESTOQUES É ESSENCIAL PARA GERAR CAIXA');
                 }
             }
             
             if (tableKey == 'table_billing' && valuesGraphics.length > 1) {
                 if (valuesGraphics[0] > valuesGraphics[1]) {
-                    analysis.push('SUAS RECEITAS ESTÃO AUMENTANDO, PARABÉNS CONTINUE CRESCENDO');
+                    analysis.push(
+                        this.textGoodStatus('SUAS RECEITAS ESTÃO AUMENTANDO, PARABÉNS CONTINUE CRESCENDO')
+                    );
                 } else if (valuesGraphics[0] < valuesGraphics[1]) {
-                    analysis.push('SUAS RECEITAS CAIRAM REFERENTE AO MÊS PASSADO, FIQUE ATENTO');
+                    analysis.push(
+                        this.textBadStatus('SUAS RECEITAS CAIRAM REFERENTE AO MÊS PASSADO, FIQUE ATENTO')
+                    );
                 }
             }
 
@@ -190,19 +199,29 @@ class CardTemplate {
         }
 
         if (totalBilling < (totalPayroll + totalShopping)) {
-            analysis.push('SUA EMPRESA ESTÁ COM PROBLEMAS DE CAIXA, AS RECEITAS PRECISAM AUMENTAR');
+            analysis.push(
+                this.textBadStatus('SUA EMPRESA ESTÁ COM PROBLEMAS DE CAIXA, AS RECEITAS PRECISAM AUMENTAR')
+            );
         }
 
         if (haveLaborDebts) {
-            analysis.push('VOCÊ POSSUI DEBITOS TRABALHISTAS');
+            analysis.push(
+                this.textBadStatus('VOCÊ POSSUI DEBITOS TRABALHISTAS')
+            );
         } else {
-            analysis.push('VOCÊ NÃO POSSUI DEBITOS TRABALHISTAS');
+            analysis.push(
+                this.textGoodStatus('VOCÊ NÃO POSSUI DEBITOS TRABALHISTAS')
+            );
         }
 
         if (haveTaxDebit) {
-            analysis.push('VOCÊ POSSUI DEBITOS FISCAIS');
+            analysis.push(
+                this.textBadStatus('VOCÊ POSSUI DEBITOS FISCAIS')
+            );
         } else {
-            analysis.push('VOCÊ NÃO POSSUI DEBITOS FISCAIS');
+            analysis.push(
+                this.textGoodStatus('VOCÊ NÃO POSSUI DEBITOS FISCAIS')
+            );
         }
 
         analysis = analysis.map((value) => `<li>${value}</li>`);
@@ -272,6 +291,14 @@ class CardTemplate {
 
     isNumeric(value) {
         return !isNaN(parseFloat(value)) && isFinite(value);
+    }
+
+    textBadStatus(text) {
+        return `<p class="text-danger text-danger-message">${text}</p>`
+    }
+
+    textGoodStatus(text) {
+        return `<p class="text-success text-success-message">${text}</p>`
     }
 
     getStyle() {
@@ -362,6 +389,11 @@ class CardTemplate {
 
             .grid-template-areas-title-report span {
                 grid-column-start: 2;
+            }
+
+            .text-success-message, text-danger-message {
+                padding: 0;
+                margin: 0;
             }
         </style>
         `;
