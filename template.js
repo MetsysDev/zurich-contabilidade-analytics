@@ -297,8 +297,8 @@ class CardTemplate {
             }
 
             .template-container .template-header img {
-                width: 469px;
-                height: 157px;
+                width: 44rem;
+                height: 10rem;
             }
 
             .template-container .template-header .title-report {
